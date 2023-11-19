@@ -41,14 +41,16 @@ st.markdown(
 "Use the following code block to help get you started."
 )
 
+
+st.title('Testing the waters with Streamlit and Altair Charts')
 # depict scatter plot
 scatter = (
     alt.Chart(df)
-    .encode( x='x_axis',y='y_data',size = 'x_axis', color='y_data')
+    .encode( x='x_axis',y='y_data',size = 'x_axis', color='x_axis')
     .mark_circle()
 )
 
-st.altair_chart(scatter, use_container_width=True)
+st.altair_chart(scatter, theme="streamlit", use_container_width=True)
 
 
 st.code(
@@ -83,11 +85,42 @@ st.markdown(
 "Pick a random visual, make two visual changes to it, document those changes, and plot the visual.  \n"
 "You may need to pip install in our terminal for example pip install vega_datasets "
 )
+# Generate random data with 5000 points
+np.random.seed(42)
+num_points = 5000
+data = pd.DataFrame({
+    'x': np.random.randint(0, 10, num_points),
+    'y': np.random.randint(0, 10, num_points),
+    'value': np.random.randint(100, 301, num_points)
+})
+
+# Create a custom color scale for the heatmap with 35 color steps from red to orange to yellow to green
+color_scale = alt.Scale(
+    domain=[100, 141, 200, 255, 300],
+    range=["#FF0000", "#FF4500", "#FF8C00", "#FFFF00", "#00FF00"]
+)
+
+# Create a heatmap using Altair with "rect" marks for each data point
+heatmap = alt.Chart(data).mark_rect().encode(
+    x='x:O',
+    y='y:O',
+    color=alt.Color('value:Q', scale=color_scale),
+    tooltip=['x', 'y', 'value']
+).properties(
+    width=500,
+    height=500
+)
+
+# Streamlit app
+st.title('Random Heatmap with Custom Color Scale, Streamlit, and Altair')
+st.write("The heatmap displays all 5000 data points as separate rectangles with a custom color scale, ranging from red to orange to yellow to green for values between 141 and 300, with 35 color steps.")
+
+st.altair_chart(heatmap)
 
 st.markdown("""
 The 2 changes I made were:
-- Change 1
-- Change 2
+- Change 1:  create a heatmap/with new random numbers
+- Change 2:  change color theme to be temperature
 """
 )
 
