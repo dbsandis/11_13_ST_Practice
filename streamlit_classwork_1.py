@@ -12,6 +12,15 @@ st.markdown(
 "Print the dataframe you create and use the following code block to help get you started"
 )
 
+x_limit = 100
+x_axis = np.arange(0, x_limit, 1)
+y_data = [random.random() for value in x_axis]
+
+df = pd.DataFrame({'x_axis': x_axis,
+                     'y_data': y_data})
+st.write(df)
+
+
 st.code(
 ''' 
 x_limit = 
@@ -32,6 +41,16 @@ st.markdown(
 "Use the following code block to help get you started."
 )
 
+# depict scatter plot
+scatter = (
+    alt.Chart(df)
+    .encode( x='x_axis',y='y_data',size = 'x_axis', color='y_data')
+    .mark_circle()
+)
+
+st.altair_chart(scatter, use_container_width=True)
+
+
 st.code(
 ''' 
 scatter = alt.Chart().mark_point().encode()
@@ -50,11 +69,11 @@ st.markdown(
 st.markdown("The five changes I made were.....")
 st.markdown("""
 The 5 changes I made were:
-- Change 1
-- Change 2
-- Change 3
-- Change 4
-- Change 5
+- Change 1 changed column/label name to x_axis
+- Change 2 changed column/label name to y_data
+- Change 3 added size
+- Change 4 added color
+- Change 5 added title
 """)
 
 
